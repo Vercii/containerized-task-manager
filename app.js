@@ -1,15 +1,10 @@
 const express = require("express");
+const pool = require("./db");
 
 const app = express();
 const PORT = 3000;
 
-let tasks = [
-    {
-        id: 1,
-        title: "Learn Docker",
-        completed: false
-    }
-];
+let tasks = [];
 
 app.use(express.json());
 
@@ -70,6 +65,15 @@ app.delete("/tasks/:id", (req, res) => {
     res.json({
         message: "Task deleted"
     });
+});
+
+// TEMPORARY: TEST DB CONNECTION
+pool.query("SELECT NOW()", (err, result) => {
+    if (err) {
+        console.error(err);
+    } else {
+        console.log(result.rows);
+    }
 });
 
 app.listen(PORT, () => {
